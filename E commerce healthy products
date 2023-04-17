@@ -1,3 +1,40 @@
+-- To find the current rate of return.
+SELECT 
+  COUNT(*) AS total_orders,
+  SUM(CASE WHEN Status = 'Returned' THEN 1 ELSE 0 END) AS returned_orders,
+  (SUM(CASE WHEN Status = 'Returned' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS return_rate
+FROM orders_data.orders
+-- Return rate is 11.76%
+
+
+
+-- To find the States with the highest rate of return.
+SELECT 
+  State, COUNT(*) AS total_orders,
+  SUM(CASE WHEN Status = 'Returned' THEN 1 ELSE 0 END) AS returned_orders,
+  (SUM(CASE WHEN Status = 'Returned' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS return_rate
+FROM 
+ orders_data.orders
+GROUP BY State
+ORDER BY return_rate DESC
+LIMIT 10
+
+
+
+-- To find the products with the highest rate of return.
+SELECT 
+  Product_Name, COUNT(*) AS total_orders,
+  SUM(CASE WHEN Status = 'Returned' THEN 1 ELSE 0 END) AS returned_orders,
+  (SUM(CASE WHEN Status = 'Returned' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS return_rate
+FROM 
+  orders_data.orders
+GROUP BY Product_Name
+ORDER BY return_rate DESC
+LIMIT 10
+
+
+
+
 -- Looking to see if there is any correlation between customers who pay cash on delivery (cod) and customers who returned a product.
 SELECT
   *
