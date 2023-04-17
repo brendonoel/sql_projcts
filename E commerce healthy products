@@ -1,0 +1,30 @@
+-- Looking to see if there is any correlation between customers who pay cash on delivery (cod) and customers who returned a product.
+SELECT
+  *
+FROM
+  orders_data.orders
+WHERE
+  isCOD = TRUE
+  AND Status = 'Returned'
+  -- 187 out of 1590 orders are returned when the customer pays cod. Saved results for future analysis.
+  
+  
+  -- Looking to see if there is any correlation between customers who DID NOT pay cash on delivery (cod) and customers who returned a product.
+SELECT
+  *
+FROM
+  orders_data.orders
+WHERE
+  isCOD = FALSE
+  AND Status = 'Returned'
+  -- 0 out of 1590 orders are returned when the customer DID NOT pay cod. 
+  
+  
+  -- Looking to see if the majority of returns were coming from the same customers.
+SELECT
+  Address, Status, isCOD, COUNT(*) AS order_amount
+FROM
+  orders_data.orders
+GROUP BY Address, Status, isCOD
+HAVING COUNT(*) > 1 AND Status = 'Returned'
+-- Only accounted for 4 returns from 2 different addresses.
